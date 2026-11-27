@@ -1,0 +1,45 @@
+# yaml-language-server: $schema=https://cubic.dev/schema/cubic-repository-config.schema.json
+#
+# Organization-wide cubic settings for zane-lang. cubic applies this file to
+# every repository that has no cubic.yaml of its own; a repository's own file
+# overrides these settings field by field. cubic reads it from the default
+# branch only. Reference: https://docs.cubic.dev/configure/cubic-yaml
+version: 1
+
+reviews:
+  # cubic reviews a pull request once, when it opens. A push to an open pull
+  # request does not start a new review; comment
+  # `@cubic-dev-ai incremental review` to review the new commits on request.
+  incremental_commits: false
+
+  # cubic skips draft pull requests and reviews one when it is marked ready.
+  check_drafts: false
+
+  ignore:
+    # cubic leaves these files out of every review, automatic or manual, so
+    # their lines do not count against the monthly reviewed-line limit.
+    files:
+      # Tests and fixtures.
+      - 'tests/**'
+      - '**/tests/**'
+      - 'test/**'
+      - '**/test/**'
+      - '**/__tests__/**'
+      - '**/fixtures/**'
+      - '**/*.test.*'
+      - '**/*.spec.*'
+      # Vendored sources and lockfiles.
+      - '**/vendor/**'
+      - '**/*.lock'
+      - '**/package-lock.json'
+      - '**/zane-lock.coda'
+      # Images and rendered previews.
+      - '**/*.png'
+      - '**/*.svg'
+      - '**/*.ico'
+
+    # A pull request with one of these labels gets no automatic review;
+    # `@cubic-dev-ai review` still reviews it on request.
+    pr_labels:
+      - skip-review
+      - WIP
